@@ -18,15 +18,16 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "clubs")
-public class Club {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Entity //tells spring this is a model we want to represent
+@Table(name = "NovelSnip")
+public class NovelSnippets{
+    @Id //primary key for multiple instances of photos table
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //auto increment ID
     private Long id;
     private String title;
-    private String photoUrl;
     private String content;
+    private String genre;
+    private String request;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
