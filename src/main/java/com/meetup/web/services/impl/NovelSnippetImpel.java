@@ -2,15 +2,19 @@ package com.meetup.web.services.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.meetup.web.services.NovelSnippetService;
+
+import jakarta.validation.Valid;
+
 import com.meetup.web.dto.NovelSnippetDTO;
 import com.meetup.web.models.NovelSnippets;
 import com.meetup.web.repository.NovelSnippetRepo;
 import com.meetup.web.mapper.NovelSnippetMapper;
 
+@Service
 public class NovelSnippetImpel implements NovelSnippetService {
 
 	private NovelSnippetRepo novelSnippetRepo;
@@ -37,4 +41,27 @@ public class NovelSnippetImpel implements NovelSnippetService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public NovelSnippets saveSnippet(NovelSnippetDTO snippetDTO) {
+		NovelSnippets snippet = NovelSnippetMapper.mapToSnippet(snippetDTO);
+		return novelSnippetRepo.save(snippet);
+	}
+
+	@Override
+	public NovelSnippetDTO findSnippetByID(long snippetID) {
+		NovelSnippets snippet = novelSnippetRepo.findById(snippetID).get();
+		return NovelSnippetMapper.mapToNovelSnippetDTO(snippet); 
+	}
+
+	@Override
+	public void updateSnippet(@Valid NovelSnippetDTO snippetDTO) {
+		NovelSnippets snippet = NovelSnippetMapper.mapToSnippet(snippetDTO);
+		novelSnippetRepo.save(snippet);
+		
+	}
+
+	@Override
+	public void deleteSnippet(long snippetID) {
+		novelSnippetRepo.deleteById(snippetID);
+	}
 }

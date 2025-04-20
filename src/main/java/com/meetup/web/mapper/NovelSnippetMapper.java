@@ -9,12 +9,23 @@ public class NovelSnippetMapper {
 		.id(novelSnippets.getId())
 		.title(novelSnippets.getTitle())
 		.content(novelSnippets.getContent())
+		.photoUrl(novelSnippets.getPhotoUrl())
 		.genre(novelSnippets.getGenre())
-		.request(novelSnippets.getRequest())
 		.createdOn(novelSnippets.getCreatedOn())
-		.updatedOn(novelSnippets.getUpdatedOn())
 		.build();
 		return novelSnippetDTO;
-	}	
+	}
 	
+	public static NovelSnippets mapToSnippet(NovelSnippetDTO novelSnippets) {
+		NovelSnippets snippetDTO = NovelSnippets.builder()
+				.id(novelSnippets.getId())
+				.title(novelSnippets.getTitle())
+				.content(novelSnippets.getContent())
+				.photoUrl(novelSnippets.getPhotoUrl())
+				.genre(novelSnippets.getGenre())
+				.createdOn(novelSnippets.getCreatedOn())
+				.build();
+		return snippetDTO;
+	}
+
 }

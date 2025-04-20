@@ -26,8 +26,8 @@ public class NovelSnippets{
     private Long id;
     private String title;
     private String content;
+    private String photoUrl;
     private String genre;
-    private String request;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
