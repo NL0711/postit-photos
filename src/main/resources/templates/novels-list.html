@@ -15,6 +15,8 @@
             border-radius: 16px;
             transition: transform 0.2s ease;
             margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
         .pin-card:hover {
             transform: scale(1.02);
@@ -24,13 +26,20 @@
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
             object-fit: cover;
+            height: 160px; /* Fixed height for image */
+            width: 100%;
+            background-color: #f8f9fa; /* Light background for missing images */
         }
         .pin-card .card-body {
             padding: 10px 15px;
+            flex: 1; /* Takes up available space */
+            display: flex;
+            flex-direction: column;
         }
         .pin-card .card-title {
             font-size: 1rem;
             margin-bottom: 0.5rem;
+            font-weight: bold;
         }
         .pin-card .card-text {
             font-size: 0.85rem;
@@ -40,17 +49,35 @@
             display: -webkit-box;
             -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
+            flex-grow: 1; /* Allows text to expand within available space */
         }
         .pin-card .card-footer {
             padding: 10px 15px;
             background-color: transparent;
             border-top: none;
+            margin-top: auto; /* Pushes footer to bottom */
+        }
+        .genre-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
         }
         .genre-badge {
             position: relative;
-            top: 10px;
-            left: 2px;
             z-index: 1;
+            font-size: 0.7rem;
+            padding: 0.3em 0.6em;
+            display: inline-block;
+            width: auto;
+            max-width: fit-content;
+        }
+        .card-img-container {
+            position: relative;
+            height: 160px;
+            overflow: hidden;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
         }
     </style>
   </head>
@@ -70,12 +97,19 @@
                     </div>
                     <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
                         <div th:each="snippet : ${snippets}" class="col">
-                            <div class="card pin-card h-100 shadow-sm position-relative">                  
-                                <img th:if="${snippet.photoUrl != null}" class="card-img-top" th:src="${snippet.photoUrl}" alt="Image">
+                            <div class="card pin-card h-100 shadow-sm">                  
+                                <div class="card-img-container">
+                                    <img th:if="${snippet.photoUrl != null and !snippet.photoUrl.isEmpty()}" class="card-img-top" th:src="${snippet.photoUrl}" alt="Image">
+                                    <img th:unless="${snippet.photoUrl != null and !snippet.photoUrl.isEmpty()}" class="card-img-top" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMTYwIiB2aWV3Qm94PSIwIDAgMTYwIDE2MCIgZmlsbD0ibm9uZSI+CiAgPHJlY3Qgd2lkdGg9IjE2MCIgaGVpZ2h0PSIxNjAiIGZpbGw9IiNmMGYwZjAiLz4KICA8cGF0aCBkPSJNODAgNTBDNjYuMTkzIDUwIDU1IDYxLjE5MyA1NSA3NUM1NSA4NS43NTggNjEuODYyIDk0Ljg5OSA3MS42MyA5OC43MTFMNzEuNjMgMTE1Ljc2Nkw4MCAxMTBMODguMzY5NyAxMTUuNzY2TDg4LjM2OTcgOTguNzEyQzk4LjEzNzggOTQuOSAxMDUgODUuNzU4IDEwNSA3NUMxMDUgNjEuMTkzIDkzLjgwNyA1MCA4MCA1MFoiIGZpbGw9IiNiZmJmYmYiLz4KPC9zdmc+" alt="Default Book Cover">
+                                </div>
                                 <div class="card-body">
-                                    <h5 class="card-title" th:text="${snippet.title}">Title</h5>
+                                    <h5 class="card-title">
+                                        <a th:href="@{/snippets/{snippetID}(snippetID=${snippet.id})}" class="text-decoration-none text-dark" th:text="${snippet.title}">Title</a>
+                                    </h5>
                                     <p class="card-text" th:text="${snippet.content}">Content</p>
-                                    <span class="badge bg-primary genre-badge" th:text="${snippet.genre}">Genre</span>
+                                    <div class="genre-container">
+                                        <span class="badge bg-primary genre-badge" th:text="${snippet.genre}">Genre</span>
+                                    </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-center align-items-center">
                                     <div class="pin-actions">

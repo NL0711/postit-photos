@@ -27,6 +27,11 @@ public class NovelController {
 		this.novelService = novelService;
 	}
 	
+	@GetMapping("/")
+	public String redirectToSnippets() {
+		return "redirect:/snippets";
+	}
+	
 	@GetMapping("/snippets") 
 	public String listNovels(Model model){
 		List<NovelSnippetDTO> snippets = novelService.findAllSnippets();
